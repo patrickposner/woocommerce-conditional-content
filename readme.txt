@@ -14,13 +14,13 @@ It register a custom role called 'special_customer'.
 
 = Examples =
 
-*Usage of the shortcode:*
+== Usage of the shortcode: ==
 
 [conditional-content role="customer"]
 <p>This is your content only visibile for customers.</p>
 [/conditional-content]
 
-*Usage of the template function*
+== Usage of the template function ==
 $valid = conditional_content( 'special_customer' );
 
 if ( true === $valid ) {
