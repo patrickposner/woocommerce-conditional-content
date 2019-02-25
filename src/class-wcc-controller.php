@@ -82,7 +82,13 @@ class WCC_Controller {
 	 */
 	public function is_product_purchasable( $is_purchasable, $object ) {
 
-		$purchase_status = get_post_meta( $object->get_id(), 'show_product_for_user', true );
+		if ( $object->is_type( 'variation' ) ) {
+			$product_id = $object->get_parent_id();
+		} else {
+			$product_id = $object->get_id();
+		}
+
+		$purchase_status = get_post_meta( $product_id, 'show_product_for_user', true );
 		$is_purchasable  = true;
 
 		if ( isset( $purchase_status ) && 'yes' === $purchase_status ) {
@@ -146,7 +152,7 @@ class WCC_Controller {
 				$notice = apply_filters( 'wcc_hide_notice', __( 'This product is only available for special customers.', 'woocommerce-conditional-content' ) );
 			}
 		}
-		$shortcode = '<div class="wcc-notice">' . esc_html( $notice ) . '</div>';
+		$shortcode = '<div class="wcc-notice">' . $notice . '</div>';
 		return $shortcode;
 	}
 }
