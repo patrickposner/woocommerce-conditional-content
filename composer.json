@@ -1,0 +1,22 @@
+{
+    "name": "patrickposner/woocommerce-conditional-content",
+    "description": "hide or display content based on user group",
+    "type": "wordpress-plugin",
+    "require": {
+    },
+    "license": "gpl",
+    "authors": [
+      {
+        "name": "Patrick Posner",
+        "email": "hello@patrickposner.de"
+      }
+    ],
+    "autoload": {
+      "classmap": [],
+      "files": [
+        "src/class-wcc-helper.php",
+        "src/class-wcc-controller.php",
+        "src/class-wcc-metabox.php"
+      ]
+    }
+}
