@@ -20,7 +20,8 @@ class WCC_Controller {
 	public function __construct() {
 		add_shortcode( 'conditional-content', array( $this, 'render_shortcode' ) );
 		add_filter( 'woocommerce_is_purchasable', array( $this, 'is_product_purchasable' ), 10, 2 );
-		add_action( 'woocommerce_single_product_summary', array( $this, 'show_notice_if_not_purchasable' ), 60 );
+		add_action( 'woocommerce_single_product_summary', array( $this, 'show_notice_if_not_purchasable' ), 99 );
+		add_shortcode( 'hide-notice', array( $this, 'show_notice_if_not_purchasable' ) );
 	}
 
 	/**
