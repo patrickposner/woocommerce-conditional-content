@@ -11,7 +11,7 @@ class WCC_Controller {
 	 */
 	public function get_instance() {
 		$shortcode = new WCC_Controller();
-		return $shortcode; 
+		return $shortcode;
 	}
 
 	/**
@@ -147,7 +147,4 @@ class WCC_Controller {
 		$shortcode = '<div class="wcc-notice">' . esc_html( $notice ) . '</div>';
 		return $shortcode;
 	}
-
-
-
 }
