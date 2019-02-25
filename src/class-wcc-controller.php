@@ -83,16 +83,18 @@ class WCC_Controller {
 	public function is_product_purchasable( $is_purchasable, $object ) {
 
 		$purchase_status = get_post_meta( $object->get_id(), 'show_product_for_user', true );
-		$is_purchasable  = false;
+		$is_purchasable  = true;
 
-		if ( is_user_logged_in() ) {
-			$user = \wp_get_current_user();
+		if ( isset( $purchase_status ) && 'yes' === $purchase_status ) {
+			$is_purchasable = false;
 
-			if ( in_array( 'special_customer', $user->roles ) && isset( $purchase_status ) && 'yes' === $purchase_status ) {
-				$is_purchasable = true;
+			if ( is_user_logged_in() ) {
+				$user = \wp_get_current_user();
+				if ( in_array( 'special_customer', $user->roles ) ) {
+					$is_purchasable = true;
+				}
 			}
 		}
-
 		return $is_purchasable;
 	}
 	/**
