@@ -21,7 +21,7 @@ class WCC_Controller {
 		add_shortcode( 'conditional-content', array( $this, 'render_shortcode' ) );
 		add_filter( 'woocommerce_is_purchasable', array( $this, 'is_product_purchasable' ), 10, 2 );
 		add_action( 'woocommerce_single_product_summary', array( $this, 'show_notice_if_not_purchasable' ), 99 );
-		add_shortcode( 'hide-notice', array( $this, 'show_notice_if_not_purchasable' ) );
+		add_shortcode( 'hide-notice', array( $this, 'show_notice_if_not_purchasable_shortcode' ) );
 	}
 
 	/**
@@ -119,6 +119,33 @@ class WCC_Controller {
 			}
 		}
 		echo '<div class="wcc-notice">' . esc_html( $notice ) . '</div>';
+	}
+
+	/**
+	 * Show notice based on purchase status
+	 *
+	 * @return void
+	 */
+	public function show_notice_if_not_purchasable_shortcode() {
+
+		$product_id      = \get_the_id();
+		$purchase_status = get_post_meta( $product_id, 'show_product_for_user', true );
+		$notice          = '';
+
+		if ( isset( $purchase_status ) && 'yes' === $purchase_status ) {
+
+			if ( is_user_logged_in() ) {
+				$user = \wp_get_current_user();
+
+				if ( ! in_array( 'special_customer', $user->roles ) ) {
+					$notice = apply_filters( 'wcc_hide_notice', __( 'This product is only available for special customers.', 'woocommerce-conditional-content' ) );
+				}
+			} else {
+				$notice = apply_filters( 'wcc_hide_notice', __( 'This product is only available for special customers.', 'woocommerce-conditional-content' ) );
+			}
+		}
+		$shortcode = '<div class="wcc-notice">' . esc_html( $notice ) . '</div>';
+		return $shortcode;
 	}
 
 
